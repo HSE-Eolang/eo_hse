@@ -3,6 +3,7 @@ package org.eolang;
 import org.eolang.core.EOObject;
 import org.eolang.core.data.EOData;
 
+import java.security.InvalidParameterException;
 import java.util.Objects;
 
 /***
@@ -23,6 +24,23 @@ public class EOstring extends EOObject {
     @Override
     public EOData _getData() {
         return new EOData(stringValue);
+    }
+
+     /***
+     * Appends strings to the end of string
+      * @param rightStrings set of strings for concatenation
+     * @return An object representing the concatenation of given string and {@code rightString}
+     */
+    public EOstring EOappend(EOObject... rightStrings) {
+        StringBuilder sb = new StringBuilder(stringValue);
+        try{
+            for (EOObject str : rightStrings) {
+                sb.append(str._getData().toString());
+            }
+        }catch (Exception e){
+            throw new InvalidParameterException();
+        }
+        return new EOstring(sb.toString());
     }
 
     /***
