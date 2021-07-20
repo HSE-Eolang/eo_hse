@@ -28,4 +28,4 @@ jobs:
     - name: Build the EO repository with Maven
       run: mvn clean install --file pom.xml
     - name: Test printing dirs
-      run: python -c 'import os, json; print(json.dumps(os.listdir(".")))'
+      run: python -c 'import os, json; print(json.dumps(next(os.walk("."))[1]))'
