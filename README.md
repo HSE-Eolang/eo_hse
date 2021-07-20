@@ -500,7 +500,7 @@ IN$:
 The `while` attribute object is used to evaluate its `f` free attribute until the base `bool` object is not `false`.  
 The `f` attribute object must have the free attribute `i` (the current iteration of the `while` loop).  
 On dataization, the `while` attribute object evaluates to the number of iterations the loop took.  
-Since objects are immutable, the `memory` object should be used as the loop condition (i.e., the base `bool` object of the `while` attribute). Moreover, the `memory` object should be changed somehow inside the `f`, otherwise the `while` will evaluate infinitely. 
+Since objects are immutable, the `memory` object should be used as the loop condition (i.e., the base `bool` object of the `while` attribute). Moreover, the `memory` object should be changed somehow inside the `f`, otherwise the `while` will evaluate infinitely.
 ###### Example <!-- omit in toc -->
 ```
 +package sandbox
