@@ -30,7 +30,7 @@ jobs:
       run: mvn clean install --file pom.xml
       
     - name: Test printing dirs
-      run: python -c 'import os, json; print(json.dumps(next(os.walk("."))[1]))'
+      run: python -c 'import os, json; print(json.dumps(next(os.walk(".github/workflows/eo-language-tests/."))[1]))'
       
   compilation-tests:
     runs-on: ubuntu-latest
