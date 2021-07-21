@@ -1,0 +1,6 @@
+{
+  "test-name": "Object Mutation Test",
+  "test-desc": "Attempts to mutate free attributes of a closed object",
+  "type": "compilation",
+  "result": "fail"
+}
