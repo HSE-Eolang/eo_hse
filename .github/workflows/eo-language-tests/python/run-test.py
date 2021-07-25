@@ -19,6 +19,7 @@ for filename in glob.glob(os.path.join(path + test_dir, '*.*')):
   if os.path.isfile(filename):
     shutil.copy(filename, dest_dir + "/eo")
 
+subprocess.run(["ls", "-la", ".github/workflows/eo-language-tests/environments/compilation-tests-environment/eo"])
 
 completed_compilation_process = subprocess.run(["mvn", "clean", "compile", "--file", dest_dir + '/pom.xml'])
 

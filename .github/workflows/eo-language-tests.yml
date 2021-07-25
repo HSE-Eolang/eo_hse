@@ -78,7 +78,3 @@ jobs:
     
     - name: Run the "${{ matrix.name }}" test
       run: python3 .github/workflows/eo-language-tests/python/run-test.py ${{ matrix.directory }}
-                    
-    
-      
-
