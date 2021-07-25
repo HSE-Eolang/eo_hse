@@ -8,6 +8,7 @@ on:
 
 jobs:
   build-compiler-repository:
+    name: Built the EO compiler
     runs-on: ubuntu-latest
     
     outputs:
@@ -37,6 +38,7 @@ jobs:
       run: python3 .github/workflows/eo-language-tests/python/retrieve-tests-matrix.py
   
   check-matrix:
+    name: Debug the tests matrix
     runs-on: ubuntu-latest
     needs: build-compiler-repository
     steps:
@@ -51,8 +53,8 @@ jobs:
           echo $matrix | jq .
           echo $matrix | json2yaml
       
-  run-tests:
-    name: ${{ matrix.name }}
+  run-compilation-tests:
+    name: ${{ matrix.name }} | Compilation Test
     runs-on: ubuntu-latest
     needs: build-compiler-repository
     strategy:
