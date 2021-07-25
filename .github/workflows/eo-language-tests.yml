@@ -38,10 +38,9 @@ jobs:
       
       
   run-tests:
+    name: Run the "${{ matrix.test.name }}" test
     runs-on: ubuntu-latest
-    
     needs: build-compiler-repository
-    
     strategy:
       matrix:
         test: ${{ fromJson(needs.build.outputs.matrix) }}

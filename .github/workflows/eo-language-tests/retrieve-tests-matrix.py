@@ -10,4 +10,4 @@ for dir in next(os.walk(path + "."))[1]:
   test_data["directory"] = str(dir)
   tests.append(test_data)
 
-print("::set-output name=matrix::" + json.dumps(test_data))
+print("::set-output name=matrix::" + json.dumps(tests))
