@@ -62,8 +62,6 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJson(needs.build-compiler-repository.outputs.matrix) }}
 
-    if: ${{ matrix.active }}
-
     steps:
     - uses: actions/checkout@v2
     
@@ -82,4 +80,5 @@ jobs:
                     ${{ runner.os }}-maven-
     
     - name: Run the "${{ matrix.name }}" test
+      if: ${{ matrix.active }}
       run: python3 .github/workflows/eo-language-tests/python/run-test.py ${{ matrix.directory }}
