@@ -1,6 +1,0 @@
-{
-  "name": "Empty Test",
-  "desc": "This test should fail as it is empty",
-  "type": "compilation",
-  "result": "fail"
-}

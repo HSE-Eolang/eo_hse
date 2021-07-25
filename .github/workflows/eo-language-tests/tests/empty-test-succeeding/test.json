@@ -1,0 +1,6 @@
+{
+  "name": "Empty Test (succeeding)",
+  "desc": "This test will pass since it is set up correctly (expected and real results are similar)",
+  "type": "compilation",
+  "result": "fail"
+}
