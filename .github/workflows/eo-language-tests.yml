@@ -43,7 +43,7 @@ jobs:
     needs: build-compiler-repository
     strategy:
       matrix:
-        test: ${{ fromJson(needs.build.outputs.matrix) }}
+        include: ${{ fromJson(needs.build.outputs.matrix) }}
 
     steps:
     - uses: actions/checkout@v2
