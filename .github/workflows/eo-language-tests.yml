@@ -33,11 +33,11 @@ jobs:
       run: mvn clean install --file pom.xml
     
     - name: Build the EO example samples
-      run: cd sandbox && mvn clean compile --file pom.xml
+      run: mvn clean compile --file sandbox/pom.xml
       
     - name: Collect tests info and form the matrix to run tests
       id: set-matrix
-      run: cd .. && python -c 'import os, json; print("::set-output name=matrix::" + json.dumps(next(os.walk(".github/workflows/eo-language-tests/."))[1]))'
+      run: python -c 'import os, json; print("::set-output name=matrix::" + json.dumps(next(os.walk(".github/workflows/eo-language-tests/."))[1]))'
       
       
   compilation-tests:
