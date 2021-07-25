@@ -1,6 +1,6 @@
 import os, json
 
-path = ".github/workflows/eo-language-tests/"
+path = ".github/workflows/eo-language-tests/tests/"
 tests = []
 
 for dir in next(os.walk(path + "."))[1]:
