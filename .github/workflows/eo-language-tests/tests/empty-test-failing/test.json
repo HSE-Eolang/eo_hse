@@ -1,6 +1,7 @@
 {
   "name": "Empty Test (failing)",
   "desc": "This test will fail since it is NOT set up correctly (expected and real results differ)",
+  "active": false,
   "type": "compilation",
   "result": "ok"
 }

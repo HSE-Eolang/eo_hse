@@ -1,0 +1,7 @@
+{
+  "name": "Wrong syntax | Vararg || Two dots instead of three ",
+  "desc": "Sample file contains an object defined through abstraction with one vararg attribute, preceeded by two dots instead of three",
+  "active": true,
+  "type": "compilation",
+  "result": "fail"
+}

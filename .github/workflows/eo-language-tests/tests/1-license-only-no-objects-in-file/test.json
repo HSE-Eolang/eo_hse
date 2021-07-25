@@ -1,0 +1,7 @@
+{
+  "name": "License-only program file",
+  "desc": "Sample file contains license text only with no objects after it, which is wrong as the compiler expects objects in program files",
+  "active": true,
+  "type": "compilation",
+  "result": "fail"
+}

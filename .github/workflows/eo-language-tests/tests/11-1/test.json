@@ -1,0 +1,7 @@
+{
+  "name": "Wrong syntax | Exclamation mark syntax (!) || space before ! ",
+  "desc": "Sample file contains an object defined through abstraction where ! is preceeded by a space which is wrong syntax",
+  "active": true,
+  "type": "compilation",
+  "result": "fail"
+}

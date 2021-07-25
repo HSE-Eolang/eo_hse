@@ -1,0 +1,7 @@
+{
+  "name": "Wrong syntax | Vararg || Free attr after vararg ",
+  "desc": "Sample file contains an object defined through abstraction with two free atts: first is vararg, and the second is a plain argument, which is wrong semantically (vararg should be the last argument)",
+  "active": true,
+  "type": "compilation",
+  "result": "fail"
+}

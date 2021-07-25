@@ -1,0 +1,7 @@
+{
+  "name": "Wrong syntax | Comments || comment on the end of a code line",
+  "desc": "Sample file contains an object defined through abstraction where comment is placed in the end of a code line, not in a separated line",
+  "active": true,
+  "type": "compilation",
+  "result": "fail"
+}

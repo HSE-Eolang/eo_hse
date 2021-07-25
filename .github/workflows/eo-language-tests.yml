@@ -57,6 +57,9 @@ jobs:
     name: ${{ matrix.name }} | Compilation Test
     runs-on: ubuntu-latest
     needs: build-compiler-repository
+
+    if: ${{ matrix.active }}
+
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.build-compiler-repository.outputs.matrix) }}

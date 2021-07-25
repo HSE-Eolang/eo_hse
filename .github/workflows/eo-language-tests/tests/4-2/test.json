@@ -1,0 +1,7 @@
+{
+  "name": "Wrong syntax | Free attributes || double space between two free args",
+  "desc": "Sample file contains an object with two free arguments with two spaces between them which is wrong syntax",
+  "active": true,
+  "type": "compilation",
+  "result": "fail"
+}

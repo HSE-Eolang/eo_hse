@@ -1,0 +1,7 @@
+{
+  "name": "Wrong syntax | Free attributes || tab char instead of a space between two free args",
+  "desc": "Sample file contains an object with two free arguments with a tab char between them which is wrong syntax",
+  "active": true,
+  "type": "compilation",
+  "result": "fail"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Wrong syntax | Comments || wrong indentation of comment line",
+  "desc": "Sample file contains an object defined through abstraction preceeded by the wrong indentation of the comment line (-0.5 indentation level to the current level), which is wrong syntax",
+  "active": true,
+  "type": "compilation",
+  "result": "fail"
+}

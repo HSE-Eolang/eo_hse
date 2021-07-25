@@ -1,0 +1,7 @@
+{
+  "name": "Wrong syntax | Comments || space before comment",
+  "desc": "Sample file contains an object defined through abstraction preceeded by a comment with a space before it (+0.5 indentation level to the current level), which is wrong syntax",
+  "active": true,
+  "type": "compilation",
+  "result": "fail"
+}

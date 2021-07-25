@@ -1,0 +1,7 @@
+{
+  "name": "Wrong syntax | Free attributes || space before first and only free arg",
+  "desc": "Sample file contains an object with one free argument preceeded by a space which is wrong syntax",
+  "active": true,
+  "type": "compilation",
+  "result": "fail"
+}

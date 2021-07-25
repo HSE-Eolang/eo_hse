@@ -1,0 +1,7 @@
+{
+  "name": "Wrong syntax | Bound attributes || Tab instead of space in indentation ",
+  "desc": "Sample file contains an object defined through abstraction with one bound attribute, preceeded by a tab character",
+  "active": true,
+  "type": "compilation",
+  "result": "fail"
+}
