@@ -37,7 +37,7 @@ jobs:
       
     - name: Collect tests info and form the matrix to run tests
       id: set-matrix
-      run: python -c 'import os, json; print("::set-output name=matrix::" + json.dumps(next(os.walk(".github/workflows/eo-language-tests/."))[1]))'
+      run: python3 .github/workflows/eo-language-tests/retrieve-tests-matrix.py
       
       
   compilation-tests:
