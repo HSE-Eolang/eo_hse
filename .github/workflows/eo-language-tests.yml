@@ -77,7 +77,7 @@ jobs:
                     ${{ runner.os }}-maven-
     
     - name: Run the "${{ matrix.name }}" test
-      run: echo "hello!"
+      run: python3 .github/workflows/eo-language-tests/python/run-test.py ${{ matrix.directory }}
                     
     
       
