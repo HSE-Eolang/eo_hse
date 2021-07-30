@@ -31,9 +31,9 @@ jobs:
       run: mvn clean install --file pom.xml
 
     - name: Release to the Maven Central
-        uses: samuelmeuli/action-maven-publish@v1
-        with:
-          gpg_private_key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
-          gpg_passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
-          nexus_username: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-          nexus_password: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+      uses: samuelmeuli/action-maven-publish@v1
+      with:
+        gpg_private_key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+        gpg_passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+        nexus_username: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+        nexus_password: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
