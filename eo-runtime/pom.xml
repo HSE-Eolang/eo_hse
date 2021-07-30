@@ -56,7 +56,7 @@ SOFTWARE.
         </dependency>
     </dependencies>
     <parent>
-        <groupId>org.eolang</groupId>
+        <groupId>io.github.hse-eolang</groupId>
         <artifactId>eo-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>

@@ -29,7 +29,7 @@ SOFTWARE.
     <artifactId>parent</artifactId>
     <version>0.51.1</version>
   </parent>
-  <groupId>org.eolang</groupId>
+  <groupId>io.github.hse-eolang</groupId>
   <artifactId>eo-parent</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -40,7 +40,7 @@ SOFTWARE.
     <module>eo-runtime</module>
   </modules>
   <description>EO Language</description>
-  <url>https://github.com/cqfn/eo</url>
+  <url>https://github.com/hse-eolang/eo_hse</url>
   <inceptionYear>2016</inceptionYear>
   <organization>
     <name>EO</name>
@@ -81,11 +81,15 @@ SOFTWARE.
     <url>https://www.rultor.com/s/eo</url>
   </ciManagement>
   <distributionManagement>
-    <site>
-      <id>github-pages</id>
-      <url>https://github.com/cqfn/eo</url>
-    </site>
-  </distributionManagement>
+  <snapshotRepository>
+    <id>ossrh</id>
+    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+  </snapshotRepository>
+  <repository>
+    <id>ossrh</id>
+    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+  </repository>
+</distributionManagement>
   <dependencyManagement>
     <dependencies>
       <dependency>
