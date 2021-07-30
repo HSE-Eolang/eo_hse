@@ -157,23 +157,6 @@ SOFTWARE.
                 </dokkaPlugins>
             </configuration>
           </plugin>
-          <plugin>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-maven-plugin</artifactId>
-            <version>${kotlin.version}</version>
-            <executions>
-              <execution>
-                <id>compile</id>
-                <phase>compile</phase>
-                <goals>
-                  <goal>compile</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <jvmTarget>11</jvmTarget>
-            </configuration>
-          </plugin>
           <!-- Javadoc plugin -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -190,10 +173,10 @@ SOFTWARE.
             <configuration>
               <doclint>none</doclint>
               <additionalparam>${javadoc.opts}</additionalparam>
+              <excludePackageNames>org.eolang.maven.*</excludePackageNames>
             </configuration>
           </plugin>
-
-            <!-- GPG plugin -->
+          <!-- GPG plugin -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
