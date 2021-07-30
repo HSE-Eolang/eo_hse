@@ -173,7 +173,7 @@ SOFTWARE.
             <configuration>
               <doclint>none</doclint>
               <additionalparam>${javadoc.opts}</additionalparam>
-              <excludePackageNames>org.eolang.maven.*</excludePackageNames>
+              <excludePackageNames>org.eolang.maven:org.eolang.maven.*</excludePackageNames>
             </configuration>
           </plugin>
           <!-- GPG plugin -->
