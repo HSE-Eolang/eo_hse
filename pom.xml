@@ -43,8 +43,8 @@ SOFTWARE.
   <url>https://github.com/hse-eolang/eo_hse</url>
   <inceptionYear>2016</inceptionYear>
   <organization>
-    <name>EO</name>
-    <url>https://github.com/cqfn/eo</url>
+    <name>The HSE-EOLANG Team</name>
+    <url>https://github.com/HSE-Eolang</url>
   </organization>
   <licenses>
     <license>
@@ -69,17 +69,13 @@ SOFTWARE.
   </developers>
   <issueManagement>
     <system>GitHub</system>
-    <url>https://github.com/cqfn/eo/issues</url>
+    <url>https://github.com/HSE-Eolang/eo_hse/issues</url>
   </issueManagement>
   <scm>
-    <connection>scm:git:git@github.com:cqfn/eo.git</connection>
-    <developerConnection>scm:git:git@github.com:cqfn/eo.git</developerConnection>
-    <url>https://github.com/cqfn/eo</url>
+    <connection>scm:git:git@github.com:HSE-Eolang/eo_hse.git</connection>
+    <developerConnection>scm:git:git@github.com:HSE-Eolang/eo_hse.git</developerConnection>
+    <url>https://github.com/HSE-Eolang/eo_hse</url>
   </scm>
-  <ciManagement>
-    <system>rultor</system>
-    <url>https://www.rultor.com/s/eo</url>
-  </ciManagement>
   <distributionManagement>
   <snapshotRepository>
     <id>ossrh</id>
@@ -99,35 +95,32 @@ SOFTWARE.
       </dependency>
     </dependencies>
   </dependencyManagement>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>3.0.1</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>3.0.1</version>
+        <configuration>
+          <!-- Prevent gpg from using pinentry programs -->
+          <gpgArguments>
+            <arg>--pinentry-mode</arg>
+            <arg>loopback</arg>
+          </gpgArguments>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <profiles>
-    <profile>
-      <id>sign</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>3.0.1</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <!-- Prevent gpg from using pinentry programs -->
-              <gpgArguments>
-                <arg>--pinentry-mode</arg>
-                <arg>loopback</arg>
-              </gpgArguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
     <profile>
       <id>qulice</id>
       <build>
