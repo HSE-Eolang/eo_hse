@@ -117,6 +117,7 @@ SOFTWARE.
       <id>deploy</id>
       <properties>
         <javadoc.opts>-Xdoclint:none</javadoc.opts>
+        <kotlin.version>1.4.32</kotlin.version>
       </properties>
       <build>
         <plugins>
@@ -155,50 +156,66 @@ SOFTWARE.
                     </plugin>
                 </dokkaPlugins>
             </configuration>
-        </plugin>
-
-        <!-- Javadoc plugin -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.2.0</version>
-          <executions>
-            <execution>
-              <id>attach-javadocs</id>
-              <goals>
-                <goal>jar</goal>
-              </goals>
-            </execution>
-          </executions>
-          <configuration>
-            <doclint>none</doclint>
-            <additionalparam>${javadoc.opts}</additionalparam>
-          </configuration>
-        </plugin>
-
-          <!-- GPG plugin -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-gpg-plugin</artifactId>
-          <version>1.6</version>
-          <executions>
+          </plugin>
+          <plugin>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-maven-plugin</artifactId>
+            <version>${kotlin.version}</version>
+            <executions>
               <execution>
-                  <id>sign-artifacts</id>
-                  <phase>verify</phase>
-                  <goals>
-                      <goal>sign</goal>
-                  </goals>
-                  <configuration>
-                      <!-- Prevent `gpg` from using pinentry programs -->
-                      <gpgArguments>
-                          <arg>--pinentry-mode</arg>
-                          <arg>loopback</arg>
-                      </gpgArguments>
-                  </configuration>
+                <id>compile</id>
+                <phase>compile</phase>
+                <goals>
+                  <goal>compile</goal>
+                </goals>
               </execution>
-          </executions>
-        </plugin>
-      </plugins>
+            </executions>
+            <configuration>
+              <jvmTarget>11</jvmTarget>
+            </configuration>
+          </plugin>
+          <!-- Javadoc plugin -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.2.0</version>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <doclint>none</doclint>
+              <additionalparam>${javadoc.opts}</additionalparam>
+            </configuration>
+          </plugin>
+
+            <!-- GPG plugin -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+                <execution>
+                    <id>sign-artifacts</id>
+                    <phase>verify</phase>
+                    <goals>
+                        <goal>sign</goal>
+                    </goals>
+                    <configuration>
+                        <!-- Prevent `gpg` from using pinentry programs -->
+                        <gpgArguments>
+                            <arg>--pinentry-mode</arg>
+                            <arg>loopback</arg>
+                        </gpgArguments>
+                    </configuration>
+                </execution>
+            </executions>
+          </plugin>
+        </plugins>
       </build>
     </profile>
     <profile>
