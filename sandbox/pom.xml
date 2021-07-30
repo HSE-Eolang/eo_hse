@@ -26,9 +26,9 @@ SOFTWARE.
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.hse-eolang</groupId>
   <artifactId>quick-start</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.1</version>
   <properties>
-    <org.eolang.version>1.0-SNAPSHOT</org.eolang.version>
+    <org.eolang.version>1.0.1</org.eolang.version>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
   </properties>

@@ -27,13 +27,13 @@ SOFTWARE.
   <parent>
     <groupId>io.github.hse-eolang</groupId>
     <artifactId>eo-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1</version>
   </parent>
   <artifactId>eo-parser</artifactId>
   <packaging>jar</packaging>
   <name>eo-parser</name>
   <description>EO-to-XML Parser</description>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.1</version>
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>

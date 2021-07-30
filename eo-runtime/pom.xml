@@ -58,12 +58,12 @@ SOFTWARE.
     <parent>
         <groupId>io.github.hse-eolang</groupId>
         <artifactId>eo-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
     <artifactId>eo-runtime</artifactId>
     <packaging>jar</packaging>
     <name>eo-runtime</name>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1</version>
     <description>org.eolang runtime library</description>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
