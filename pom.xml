@@ -115,6 +115,9 @@ SOFTWARE.
     <!-- Deployment profile (required so these plugins are only used when deploying) -->
     <profile>
       <id>deploy</id>
+      <properties>
+        <javadoc.opts>-Xdoclint:none</javadoc.opts>
+      </properties>
       <build>
         <plugins>
           <!-- Source plugin -->
@@ -145,6 +148,9 @@ SOFTWARE.
                 </goals>
               </execution>
             </executions>
+            <configuration>
+              <additionalparam>${javadoc.opts}</additionalparam>
+            </configuration>
           </plugin>
 
           <!-- GPG plugin -->
