@@ -135,24 +135,27 @@ SOFTWARE.
             </executions>
           </plugin>
 
-          <!-- Javadoc plugin -->
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.2.0</version>
+            <groupId>org.jetbrains.dokka</groupId>
+            <artifactId>dokka-maven-plugin</artifactId>
+            <version>1.5.0</version>
             <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
+                <execution>
+                    <goals>
+                        <goal>javadocJar</goal>
+                    </goals>
+                </execution>
             </executions>
             <configuration>
-              <doclint>none</doclint>
-              <additionalparam>${javadoc.opts}</additionalparam>
+                <dokkaPlugins>
+                    <plugin>
+                        <groupId>org.jetbrains.dokka</groupId>
+                        <artifactId>kotlin-as-java-plugin</artifactId>
+                        <version>1.5.0</version>
+                    </plugin>
+                </dokkaPlugins>
             </configuration>
-          </plugin>
+        </plugin>
 
           <!-- GPG plugin -->
           <plugin>
