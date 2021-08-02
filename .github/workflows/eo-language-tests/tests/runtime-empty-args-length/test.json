@@ -1,0 +1,7 @@
+{
+  "name": "app.args length check",
+  "desc": "Prints the length of the app.args object",
+  "active": true,
+  "type": "runtime",
+  "result": "0"
+}

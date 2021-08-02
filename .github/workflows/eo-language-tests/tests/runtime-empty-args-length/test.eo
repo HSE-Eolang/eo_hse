@@ -1,0 +1,5 @@
++package test
++alias org.eolang.txt.sprintf
+
+[args...] > app
+  args.length > @

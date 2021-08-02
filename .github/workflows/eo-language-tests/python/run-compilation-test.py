@@ -31,6 +31,6 @@ else:
 expected_compilation_result = test_data["result"]
 
 if expected_compilation_result != actual_compilation_result:
-  raise AssertionError("Expected compilation result: \"" + expected_compilation_result + "\", but got: \"" + actual_compilation_result + "\".")
+  raise AssertionError("Expected compilation result: \"" + str(expected_compilation_result) + "\", but got: \"" + str(actual_compilation_result) + "\".")
 else:
   print("OK!")
