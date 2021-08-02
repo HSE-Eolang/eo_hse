@@ -64,17 +64,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      if: ${{ matrix.active && eq(matrix.type, 'compilation') }} 
+      if: ${{ matrix.active && matrix.type == 'compilation' }} 
     
     - name: Set up JDK 11
-      if: ${{ matrix.active }}
       uses: actions/setup-java@v2
       with:
         java-version: '11'
         distribution: 'adopt'
         
     - name: Cache the local Maven repository to retrieve the EO compiler installed to it
-      if: ${{ matrix.active }}
       uses: actions/cache@v2
       with:
         path: ~/.m2/repository
@@ -83,5 +81,4 @@ jobs:
                     ${{ runner.os }}-maven-
     
     - name: Run the "${{ matrix.name }}" test
-      if: ${{ matrix.active && eq(matrix.type, 'compilation') }} 
       run: python3 .github/workflows/eo-language-tests/python/run-compilation-test.py ${{ matrix.directory }}
