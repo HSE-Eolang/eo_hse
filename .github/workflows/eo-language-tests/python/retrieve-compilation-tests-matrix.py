@@ -9,7 +9,7 @@ for dir in next(os.walk(path + "."))[1]:
   
   test_data["directory"] = str(dir)
 
-  if (test_data["type"] == "compilation"):
+  if (test_data["type"] == "compilation" and test_data["active"]):
     tests.append(test_data)
 
 matrix = {}

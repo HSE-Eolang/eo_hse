@@ -75,14 +75,6 @@ jobs:
       matrix: ${{ fromJson(needs.build-compiler-repository.outputs.compilation-matrix) }}
 
     steps:
-    - name: Check whether the test should be run
-      if: ${{ matrix.active == false }}
-      run: exit 1
-    
-    - name: Cancelling...
-      if: failure()
-      uses: andymckay/cancel-action@0.2
-
     - uses: actions/checkout@v2
     
     - name: Set up JDK 11
@@ -112,14 +104,6 @@ jobs:
       matrix: ${{ fromJson(needs.build-compiler-repository.outputs.runtime-matrix) }}
 
     steps:
-    - name: Check whether the test should be run
-      if: ${{ matrix.active == false }}
-      run: exit 1
-    
-    - name: Cancelling...
-      if: failure()
-      uses: andymckay/cancel-action@0.2
-
     - uses: actions/checkout@v2
     
     - name: Set up JDK 11
