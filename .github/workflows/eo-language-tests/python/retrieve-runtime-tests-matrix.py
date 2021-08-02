@@ -8,7 +8,9 @@ for dir in next(os.walk(path + "."))[1]:
     test_data = json.load(test_data_file)
   
   test_data["directory"] = str(dir)
-  tests.append(test_data)
+
+  if (test_data["type"] == "runtime"):
+    tests.append(test_data)
 
 matrix = {}
 matrix["include"] = tests

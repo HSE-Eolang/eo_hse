@@ -12,7 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      compilation-matrix: ${{ steps.set-compilation-tests-matrix.outputs.matrix }}
+      runtime-matrix: ${{ steps.set-runtime-tests-matrix.outputs.matrix }}
 
     steps:
     - uses: actions/checkout@v2
@@ -33,9 +34,13 @@ jobs:
     - name: Build the EO repository with Maven
       run: mvn clean install --file pom.xml
       
-    - name: Collect tests info and form the matrix to run tests
-      id: set-matrix
-      run: python3 .github/workflows/eo-language-tests/python/retrieve-tests-matrix.py
+    - name: Collect tests info and form the matrix to run compilation tests
+      id: set-compilation-tests-matrix
+      run: python3 .github/workflows/eo-language-tests/python/retrieve-compilation-tests-matrix.py
+    
+    - name: Collect tests info and form the matrix to run runtime tests
+      id: set-runtime-tests-matrix
+      run: python3 .github/workflows/eo-language-tests/python/retrieve-runtime-tests-matrix.py
   
   check-matrix:
     name: Check the tests matrix for validity
@@ -46,9 +51,16 @@ jobs:
         run: |
           sudo npm install -g json2yaml
 
-      - name: Check matrix definition
+      - name: Check the compilation matrix definition
         run: |
-          matrix='${{ needs.build-compiler-repository.outputs.matrix }}'
+          matrix='${{ needs.build-compiler-repository.outputs.compilation-matrix }}'
+          echo $matrix
+          echo $matrix | jq .
+          echo $matrix | json2yaml
+      
+      - name: Check the runtime matrix definition
+        run: |
+          matrix='${{ needs.build-compiler-repository.outputs.runtime-matrix }}'
           echo $matrix
           echo $matrix | jq .
           echo $matrix | json2yaml
@@ -60,25 +72,26 @@ jobs:
 
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.build-compiler-repository.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.build-compiler-repository.outputs.compilation-matrix) }}
 
     steps:
     - name: Check whether the test should be run
-      if: ${{ matrix.active == true && matrix.type == 'compilation' }}
-      run: echo "This is an active compilation test! Proceeding."
+      if: ${{ matrix.active == false }}
+      run: exit 1
+    
+    - name: Cancelling...
+      if: failure()
+      uses: andymckay/cancel-action@0.2
 
     - uses: actions/checkout@v2
-      if: ${{ !cancelled() }} 
     
     - name: Set up JDK 11
-      if: ${{ !cancelled() }} 
       uses: actions/setup-java@v2
       with:
         java-version: '11'
         distribution: 'adopt'
         
     - name: Cache the local Maven repository to retrieve the EO compiler installed to it
-      if: ${{ !cancelled() }} 
       uses: actions/cache@v2
       with:
         path: ~/.m2/repository
@@ -87,5 +100,4 @@ jobs:
                     ${{ runner.os }}-maven-
     
     - name: Run the "${{ matrix.name }}" test
-      if: ${{ !cancelled() }} 
       run: python3 .github/workflows/eo-language-tests/python/run-compilation-test.py ${{ matrix.directory }}
