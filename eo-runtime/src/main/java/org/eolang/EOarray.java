@@ -181,6 +181,70 @@ public class EOarray extends EOObject {
     }
 
     /**
+     * Finds the position of the first minimum element in this array thanks to the {@code comparator} object.
+     *
+     * This implementation assumes that:
+     *   1. Empty arrays have no minimum element (thus, this object evaluates to -1).
+     *   2. One-element arrays have their minimums at the 0th position, meaning the first element is the minimum.
+     *
+     * @param comparator an EO object that must have a {@code comparator} attribute which must have two free attributes:
+     *                      1. The first free attribute receives the A element to be compared with B.
+     *                      2. The second attribute receives the index of the A element.
+     *                         The index is provided in case if it is needed for comparison.
+     *                      3. The third free attribute receives the B element to be compared with A.
+     *                      4. The fourth free attribute receives the index of the B element.
+     *                         The index is provided in case if it is needed for comparison.
+     *                      The order of the free attributes matters, and their names do not.
+     *                      The {@code comparator} attribute must bind a comparison technique (function) to {@code @}.
+     *                      The comparison technique must:
+     *                          1. Evaluate to 0 iff A = B (objects A and B are considered equal).
+     *                          2. Evaluate to -1 iff A < B (object A is considered less than object B).
+     *                          3. Evaluate to 1 iff A > B (object A is considered greater than object B).
+     * @return the position of the first minimum element or -1 if all elements are equal.
+     */
+    public EOint EOmin(EOObject comparator) {
+        // empty arrays have no minimums
+        if (_array.isEmpty()) {
+            return new EOint(-1);
+        }
+        // one-element arrays have their minimums at the 0th position
+        if (_array.size() == 1) {
+            return new EOint(0);
+        }
+        // consider the first element as the minimum
+        int currentMinIndex = 0;
+        EOObject currentMin = _array.get(currentMinIndex);
+        // try to find an element that would be less that the first
+        boolean allEqual = true;
+        for (int i = 1; i < _array.size(); i++) {
+            EOObject comparison = comparator
+                    ._getAttribute
+                            (
+                              "EOcomparator",
+                                    currentMin,
+                                    new EOint(currentMinIndex),
+                                    _array.get(i),
+                                    new EOint(i)
+                            )._getDecoratedObject();
+            long comparisonResult = comparison._getData().toInt();
+            if (comparisonResult != 0) {
+                allEqual = false;
+            }
+            if (comparisonResult == 1) {
+                currentMinIndex = i;
+                currentMin = _array.get(currentMinIndex);
+            }
+        }
+
+        if (allEqual) {
+            return new EOint(-1);
+        }
+        else {
+            return new EOint(currentMinIndex);
+        }
+    }
+
+    /**
      * Retrieves all pairs of the elements of this array.
      * Resulting pairs are essentially 2-combinations with no repetitions (order is not taken into account).
      * Uniqueness of elements within pairs is not guaranteed (this method, however, guarantees that resulting pairs
@@ -245,6 +309,67 @@ public class EOarray extends EOObject {
             out = reducerObject._getAttribute("EOreducei", out, _array.get(i), new EOint(i))._getDecoratedObject();
         }
         return out;
+    }
+
+    /**
+     * Removes the element at the position {@code i} of this array.
+     * @param i the position to change the element at.
+     * @return a copy of this list with the ith element removed.
+     * @throws IndexOutOfBoundsException if {@code i} is out of bounds of this array
+     *                                   (i.e., {@code array.length <= i < 0}).
+     */
+    public EOarray EOremove(EOObject i) {
+        // retrieve the position to change the value at
+        int position = i._getData().toInt().intValue();
+        // check if the position is correct
+        if (position >= _array.size() || position < 0) {
+            throw new IndexOutOfBoundsException(
+                    String.format(
+                            "Cannot remove the element at the position %d of the following array: %s. The index is out of bounds.",
+                            position,
+                            this
+                    )
+            );
+        }
+        // copy the array removing the specified element
+        EOObject[] newArray = new EOObject[_array.size()-1];
+        int k = 0;
+        for (int j = 0; j < _array.size(); j++) {
+            if (j != position) {
+                newArray[k] = _array.get(j);
+                k += 1;
+            }
+        }
+        return new EOarray(newArray);
+    }
+
+    /**
+     * Replaces the element at the position {@code i} of this array with the new value {@code newValue}.
+     * @param i the position to change the element at.
+     * @param newValue the new value for the element.
+     * @return a copy of this list with the ith element replaced to the new value.
+     * @throws IndexOutOfBoundsException if {@code i} is out of bounds of this array
+     *                                   (i.e., {@code array.length <= i < 0}).
+     */
+    public EOarray EOreplace(EOObject i, EOObject newValue) {
+        // retrieve the position to change the value at
+        int position = i._getData().toInt().intValue();
+        // check if the position is correct
+        if (position >= _array.size() || position < 0) {
+            throw new IndexOutOfBoundsException(
+                    String.format(
+                            "Cannot replace the element at the position %d of the following array: %s with the new value %s. The index is out of bounds.",
+                            position,
+                            this,
+                            newValue
+                    )
+            );
+        }
+        // copy the array replacing the specified element with the new value
+        EOObject[] newArray = new EOObject[_array.size()];
+        System.arraycopy(_array.toArray(), 0, newArray, 0, _array.size());
+        newArray[position] = newValue;
+        return new EOarray(newArray);
     }
 
     /**

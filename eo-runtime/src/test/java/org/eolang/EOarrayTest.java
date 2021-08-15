@@ -18,6 +18,30 @@ import static org.hamcrest.CoreMatchers.is;
 class EOarrayTest {
 
     /**
+     * Int comparator object allows to compare int numbers.
+     */
+    static private final EOObject intComparatorObject = new EOObject() {
+        public EOObject EOcomparator(EOint A, EOint indexA, EOint B, EOint indexB) {
+            return new EOObject() {
+                @Override
+                protected EOObject _decoratee() {
+                    if (A.EOless(B)._getData().toBoolean()) {
+                        return new EOint(-1);
+                    }
+                    else {
+                        if (A.EOgreater(B)._getData().toBoolean()) {
+                            return new EOint(1);
+                        }
+                        else {
+                            return new EOint(0);
+                        }
+                    }
+                }
+            };
+        }
+    };
+
+    /**
      * Test for {@code EOappend}
      * checks if an elements successfully appends to an array
      */
@@ -442,6 +466,10 @@ class EOarrayTest {
         MatcherAssert.assertThat(resultArray.EOisEmpty()._getData().toBoolean(), is(true));
     }
 
+    @Test
+    void EOmin() {
+    }
+
     /**
      * Checks that {@code EOpairs} does not guarantee uniqueness of pairs when elements of an array are not unique.
      */
@@ -615,6 +643,283 @@ class EOarrayTest {
         MatcherAssert.assertThat(reducedValue._getData().toInt(), is(expectedResult));
     }
 
+    /**
+     * Checks that {@code EOremove} fails when working with empty arrays.
+     */
+    @Test
+    void EOremoveFailsWithEmptyArrays() {
+        EOarray inputArray = new EOarray();
+        EOint removeIndex = new EOint(3);
+        MatcherAssert.assertThat(
+                () -> inputArray.EOremove(removeIndex),
+                throwsException(IndexOutOfBoundsException.class)
+                        .withMessage("Cannot remove the element at the position 3 of the following array: array([]). The index is out of bounds.")
+        );
+    }
+
+    /**
+     * Checks that {@code EOremove} fails when the index is less than zero.
+     */
+    @Test
+    void EOremoveFailsWithNegativeIndex() {
+        EOarray inputArray = new EOarray(
+                new EOint(1),
+                new EOint(3),
+                new EOint(5),
+                new EOint(9)
+        );
+        EOint removeIndex = new EOint(-1);
+        MatcherAssert.assertThat(
+                () -> inputArray.EOremove(removeIndex),
+                throwsException(IndexOutOfBoundsException.class)
+                        .withMessage("Cannot remove the element at the position -1 of the following array: array([int(1), int(3), int(5), int(9)]). The index is out of bounds.")
+        );
+    }
+
+    /**
+     * Checks that {@code EOremove} fails when the index is larger than the highest index of an array.
+     */
+    @Test
+    void EOremoveFailsWithTooLargeIndex() {
+        EOarray inputArray = new EOarray(
+                new EOint(1),
+                new EOint(3),
+                new EOint(5),
+                new EOint(9)
+        );
+        EOint removeIndex = new EOint(4);
+        MatcherAssert.assertThat(
+                () -> inputArray.EOremove(removeIndex),
+                throwsException(IndexOutOfBoundsException.class)
+                        .withMessage("Cannot remove the element at the position 4 of the following array: array([int(1), int(3), int(5), int(9)]). The index is out of bounds.")
+        );
+    }
+
+    /**
+     * Checks that {@code EOremove} is able to remove an element when indexing is correct.
+     */
+    @Test
+    void EOremoveWorksWhenIndexingIsCorrect() {
+        EOarray inputArray = new EOarray(
+                new EOint(1),
+                new EOint(20),
+                new EOint(-7),
+                new EOint(0),
+                new EOint(5)
+        );
+        int removeIndex = 3;
+        EOarray expectedOutputArray = new EOarray(
+                new EOint(1),
+                new EOint(20),
+                new EOint(-7),
+                new EOint(5)
+        );
+        EOarray outputArray = inputArray.EOremove(new EOint(removeIndex));
+        MatcherAssert.assertThat(outputArray, is(expectedOutputArray));
+    }
+
+    /**
+     * Checks that {@code EOremove} is able to remove an element in a one-element array.
+     */
+    @Test
+    void EOremoveWorksWithOneElementArrays() {
+        EOarray inputArray = new EOarray(
+                new EOint(1)
+        );
+        int removeIndex = 0;
+        EOarray expectedOutputArray = new EOarray();
+        EOarray outputArray = inputArray.EOremove(new EOint(removeIndex));
+        MatcherAssert.assertThat(outputArray, is(expectedOutputArray));
+    }
+
+    /**
+     * Checks that {@code EOreplace} fails when working with empty arrays.
+     */
+    @Test
+    void EOreplaceFailsWithEmptyArrays() {
+        EOarray inputArray = new EOarray();
+        EOint replacementIndex = new EOint(3);
+        EOint replacementValue = new EOint(1000);
+        MatcherAssert.assertThat(
+                () -> inputArray.EOreplace(replacementIndex, replacementValue),
+                throwsException(IndexOutOfBoundsException.class)
+                        .withMessage("Cannot replace the element at the position 3 of the following array: array([]) with the new value int(1000). The index is out of bounds.")
+        );
+    }
+
+    /**
+     * Checks that {@code EOreplace} fails when the index is less than zero.
+     */
+    @Test
+    void EOreplaceFailsWithNegativeIndex() {
+        EOarray inputArray = new EOarray(
+                new EOint(1),
+                new EOint(3),
+                new EOint(5),
+                new EOint(9)
+        );
+        EOint replacementIndex = new EOint(-1);
+        EOint replacementValue = new EOint(1000);
+        MatcherAssert.assertThat(
+                () -> inputArray.EOreplace(replacementIndex, replacementValue),
+                throwsException(IndexOutOfBoundsException.class)
+                        .withMessage("Cannot replace the element at the position -1 of the following array: array([int(1), int(3), int(5), int(9)]) with the new value int(1000). The index is out of bounds.")
+        );
+    }
+
+    /**
+     * Checks that {@code EOreplace} fails when the index is larger than the highest index of an array.
+     */
+    @Test
+    void EOreplaceFailsWithTooLargeIndex() {
+        EOarray inputArray = new EOarray(
+                new EOint(1),
+                new EOint(3),
+                new EOint(5),
+                new EOint(9)
+        );
+        EOint replacementIndex = new EOint(4);
+        EOint replacementValue = new EOint(1000);
+        MatcherAssert.assertThat(
+                () -> inputArray.EOreplace(replacementIndex, replacementValue),
+                throwsException(IndexOutOfBoundsException.class)
+                        .withMessage("Cannot replace the element at the position 4 of the following array: array([int(1), int(3), int(5), int(9)]) with the new value int(1000). The index is out of bounds.")
+        );
+    }
+
+    /**
+     * Checks that {@code EOreplace} is able to replace an element with a new value when indexing is correct.
+     */
+    @Test
+    void EOreplaceWorksWhenIndexingIsCorrect() {
+        EOarray inputArray = new EOarray(
+                new EOint(1),
+                new EOint(20),
+                new EOint(-7),
+                new EOint(0),
+                new EOint(5)
+        );
+        int replacementIndex = 3;
+        int replacementValue = 10000;
+        EOarray expectedOutputArray = new EOarray(
+                new EOint(1),
+                new EOint(20),
+                new EOint(-7),
+                new EOint(replacementValue),
+                new EOint(5)
+        );
+        EOarray outputArray = inputArray.EOreplace(new EOint(replacementIndex), new EOint(replacementValue));
+        MatcherAssert.assertThat(outputArray, is(expectedOutputArray));
+    }
+
+    /**
+     * Checks that {@code EOreplace} is able to replace an element in a one-element array.
+     */
+    @Test
+    void EOreplaceWorksWithOneElementArrays() {
+        EOarray inputArray = new EOarray(
+                new EOint(1)
+        );
+        int replacementIndex = 0;
+        int replacementValue = 10000;
+        EOarray expectedOutputArray = new EOarray(
+                new EOint(replacementValue)
+        );
+        EOarray outputArray = inputArray.EOreplace(new EOint(replacementIndex), new EOint(replacementValue));
+        MatcherAssert.assertThat(outputArray, is(expectedOutputArray));
+    }
+
+    /**
+     * Checks that {@code EOmin} is able to find the index of the first minimum when minimum exists.
+     */
+    @Test
+    void EOminWorksWhenMinExists() {
+        EOint expectedMinimum = new EOint(-7);
+        EOint expectedIndex = new EOint(2);
+        EOarray inputArray = new EOarray(
+                new EOint(1),
+                new EOint(-2),
+                expectedMinimum,
+                new EOint(12),
+                new EOint(0)
+        );
+
+        EOint foundMinIndex = inputArray.EOmin(EOarrayTest.intComparatorObject);
+        EOint foundMin = (EOint) inputArray.EOget(foundMinIndex);
+
+        MatcherAssert.assertThat(foundMin, is(expectedMinimum));
+        MatcherAssert.assertThat(foundMinIndex, is(expectedIndex));
+    }
+
+    /**
+     * Checks that {@code EOmin} evaluates to -1 when all elements are equal.
+     */
+    @Test
+    void EOminAllEqual() {
+        EOint expectedIndex = new EOint(-1);
+        EOarray inputArray = new EOarray(
+                new EOint(1),
+                new EOint(1),
+                new EOint(1),
+                new EOint(1),
+                new EOint(1)
+        );
+
+        EOint foundMinIndex = inputArray.EOmin(EOarrayTest.intComparatorObject);
+        MatcherAssert.assertThat(foundMinIndex, is(expectedIndex));
+    }
+
+    /**
+     * Checks that {@code EOmin} evaluates to -1 when an array is empty.
+     */
+    @Test
+    void EOminEmptyArray() {
+        EOint expectedIndex = new EOint(-1);
+        EOarray inputArray = new EOarray();
+
+        EOint foundMinIndex = inputArray.EOmin(EOarrayTest.intComparatorObject);
+        MatcherAssert.assertThat(foundMinIndex, is(expectedIndex));
+    }
+
+    /**
+     * Checks that {@code EOmin} considers the 0th and only element as the minimum of a one-element array.
+     */
+    @Test
+    void EOminOnlyElementIsMin() {
+        EOint expectedIndex = new EOint(0);
+        EOarray inputArray = new EOarray(
+                new EOint(1)
+        );
+
+        EOint foundMinIndex = inputArray.EOmin(EOarrayTest.intComparatorObject);
+        MatcherAssert.assertThat(foundMinIndex, is(expectedIndex));
+    }
+
+    /**
+     * Checks that {@code EOmin} finds the first minimum among several ones.
+     */
+    @Test
+    void EOminSeveralMinima() {
+        EOint expectedMinimum = new EOint(-7);
+        EOint expectedIndex = new EOint(2);
+        EOarray inputArray = new EOarray(
+                new EOint(1),
+                new EOint(-2),
+                expectedMinimum,
+                new EOint(12),
+                new EOint(0),
+                expectedMinimum,
+                new EOint(3),
+                new EOint(8),
+                expectedMinimum
+        );
+
+        EOint foundMinIndex = inputArray.EOmin(EOarrayTest.intComparatorObject);
+        EOint foundMin = (EOint) inputArray.EOget(foundMinIndex);
+
+        MatcherAssert.assertThat(foundMin, is(expectedMinimum));
+        MatcherAssert.assertThat(foundMinIndex, is(expectedIndex));
+    }
 }
 
 class StdoutMockingUtils {
