@@ -1,9 +1,14 @@
 package org.eolang;
 
+import org.eolang.core.EOObject;
 import org.eolang.core.data.EODataObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+
+import java.security.InvalidParameterException;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Test cases for {@link EOstring}
@@ -31,6 +36,30 @@ class EOstringTest {
                 string.EOtrim()._getData().toString(),
                 Matchers.equalTo("Hello")
         );
+    }
+
+    /***
+     * Test for {@code EOsubstring}
+     * checks if a string value with spaces on sides gets trimmed
+     */
+    @Test
+    void EOsubstring() {
+        EOstring string = new EOstring("one two three");
+        MatcherAssert.assertThat(
+                string.EOsubstring(new EOint(0L), new EOint(3L))._getData().toString(),
+                Matchers.equalTo("one")
+        );
+        MatcherAssert.assertThat(
+                string.EOsubstring(new EOint(4L), new EOint(7L))._getData().toString(),
+                Matchers.equalTo("two")
+        );
+        MatcherAssert.assertThat(
+                string.EOsubstring(new EOint(8L), new EOint(13L))._getData().toString(),
+                Matchers.equalTo("three")
+        );
+        assertThrows(InvalidParameterException.class, () -> string.EOsubstring(new EOObject() {}, new EOObject() {}));
+        assertThrows(IndexOutOfBoundsException.class, () -> string.EOsubstring(new EOint(4L), new EOint(25L)));
+        assertThrows(IndexOutOfBoundsException.class, () -> string.EOsubstring(new EOint(-4L), new EOint(13L)));
     }
 
     /***

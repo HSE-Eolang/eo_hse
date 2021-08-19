@@ -44,6 +44,22 @@ public class EOstring extends EOObject {
     }
 
     /***
+     * Returns a new string that is a substring of this string
+     * @param begin - the beginning index, inclusive.
+     * @param end - the ending index, exclusive.
+     * @return the specified substring.
+     */
+    public EOstring EOsubstring(EOObject begin, EOObject end) {
+        try{
+            return new EOstring(stringValue.substring(begin._getData().toInt().intValue(), end._getData().toInt().intValue()));
+        }catch (IndexOutOfBoundsException  e){
+            throw new IndexOutOfBoundsException();
+        }catch (Exception e){
+            throw new InvalidParameterException();
+        }
+    }
+
+    /***
      * Trims this string on both sides
      * @return An object representing the trimmed value of this string
      */
