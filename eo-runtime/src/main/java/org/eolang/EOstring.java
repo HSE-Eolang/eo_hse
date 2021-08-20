@@ -4,6 +4,8 @@ import org.eolang.core.EOObject;
 import org.eolang.core.data.EOData;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /***
@@ -65,6 +67,26 @@ public class EOstring extends EOObject {
      */
     public EOstring EOtrim() {
         return new EOstring(stringValue.trim());
+    }
+
+    /***
+     * Splits a string by a separator
+     * @param separator - the boundary string object.
+     * @return the array of string objects computed by splitting this string on boundaries formed by the separator.
+     */
+    public EOarray EOsplit(EOObject separator){
+        List<EOstring> strList = new ArrayList<>();
+        int i = 0;
+        int j;
+        while ((j = stringValue.indexOf(separator._getData().toString(), i)) >= 0) {
+            if(j>0)
+                strList.add(new EOstring(stringValue.substring(i, j)));
+            i = j + 1;
+        }
+        String last = stringValue.substring(i);
+        if(last.length() > 0)
+            strList.add(new EOstring(last));
+        return new EOarray(strList.toArray(EOstring[]::new));
     }
 
     /***
