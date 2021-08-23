@@ -3,6 +3,7 @@ package org.eolang;
 import org.eolang.core.EOObject;
 import org.paukov.combinatorics3.Generator;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Objects;
 
@@ -333,15 +334,13 @@ public class EOarray extends EOObject {
         }
         // copy the array removing the specified element
         EOObject[] newArray = new EOObject[_array.size()-1];
-        int k = 0;
-        for (int j = 0; j < _array.size(); j++) {
-            if (j != position) {
-                newArray[k] = _array.get(j);
-                k += 1;
-            }
-        }
+        if(position>0)
+            System.arraycopy(_array.toArray(), 0, newArray, 0, position);
+        if(position<_array.size()-1)
+            System.arraycopy(_array.toArray(), position+1, newArray, position, _array.size() - position - 1);
         return new EOarray(newArray);
     }
+
 
     /**
      * Replaces the element at the position {@code i} of this array with the new value {@code newValue}.
@@ -369,6 +368,34 @@ public class EOarray extends EOObject {
         EOObject[] newArray = new EOObject[_array.size()];
         System.arraycopy(_array.toArray(), 0, newArray, 0, _array.size());
         newArray[position] = newValue;
+        return new EOarray(newArray);
+    }
+
+    /**
+     * Inserts the object at the position {@code i} of this array.
+     * @param obj the position to insert.
+     * @param i the position to insert the object at.
+     * @return a copy of this array with the inserted object.
+     * @throws IndexOutOfBoundsException if {@code i} is out of bounds of this array
+     *                                   (i.e., {@code array.length <= i < 0}).
+     */
+    public EOarray EOinsert(EOObject obj, EOObject i) {
+        int index  = i._getData().toInt().intValue();
+        if (index > _array.size() || index < 0) {
+            throw new IndexOutOfBoundsException(
+                    String.format(
+                            "Cannot insert the object at the position %d of the following array: %s. The index is out of bounds.",
+                            index,
+                            this
+                    )
+            );
+        }
+        EOObject[] newArray = new EOObject[_array.size() + 1];
+        if(index>0)
+            System.arraycopy(_array.toArray(), 0, newArray, 0, index);
+        newArray[index] = obj;
+        if(index<_array.size())
+            System.arraycopy(_array.toArray(), index, newArray, index+1, _array.size() - index);
         return new EOarray(newArray);
     }
 
