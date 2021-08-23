@@ -3,6 +3,7 @@ package org.eolang;
 import org.eolang.core.EOObject;
 import org.paukov.combinatorics3.Generator;
 
+import java.lang.reflect.Constructor;
 import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Objects;
@@ -398,6 +399,34 @@ public class EOarray extends EOObject {
             System.arraycopy(_array.toArray(), index, newArray, index+1, _array.size() - index);
         return new EOarray(newArray);
     }
+
+    /**
+     * Searches for an element in this array
+     * @param from inex of the element from which the search will start.
+     * @param validator the object for element validation, must have 1 free attribute and must be datarized to boolean.
+     * @return a copy of this array with the inserted object.
+     */
+    public EOint EOfind(EOObject from, EOObject validator) {
+        int index  = from._getData().toInt().intValue();
+        if (index > _array.size() || index < 0) {
+            return new EOint(-1L);
+        }
+        for(int i = index; i < _array.size(); i++){
+            try {
+                Class<?> vClass = validator.getClass();
+                EOObject vObject = (EOObject)vClass
+                        .getConstructor(new Class<?> [] {EOObject.class})
+                        .newInstance(_array.get(i));
+                if(vObject._getDecoratedObject()._getData().toBoolean())
+                    return new EOint(i);
+            } catch (Exception e) {
+                return new EOint(-1L);
+            }
+        }
+        return new EOint(-1L);
+    }
+
+
 
     /**
      * !!!For testing purposes only!!!
