@@ -231,6 +231,22 @@ class EOarrayTest {
     }
 
     /**
+     * Checks {@code EOfind} object.
+     */
+    @Test
+    void EOfind(){
+        EOarray arr = new EOarray(
+                new EOint(0),
+                new EOint(9),
+                new EOint(5),
+                new EOint(7),
+                new EOint(12),
+                new EOint(4)
+        );
+        //TODO Add test
+    }
+
+    /**
      * Checks that {@code EOget} fails when working with empty arrays.
      */
     @Test
@@ -298,6 +314,61 @@ class EOarrayTest {
         EOint index = new EOint(3);
         EOint result = (EOint) inputArray.EOget(index);
         MatcherAssert.assertThat(result, is(expectedResult));
+    }
+
+    /**
+     * Checks that {@code EOinsert} inserts objects in proper positions.
+     */
+    @Test
+    void EOinsert(){
+        EOarray arr = new EOarray(
+                new EOint(0),
+                new EOint(2),
+                new EOint(4)
+        );
+
+        EOarray arr2 = new EOarray();
+
+        EOarray newArr = arr.EOinsert(new EOint(1), new EOint(1));
+        newArr = newArr.EOinsert(new EOint(3), new EOint(3));
+        newArr = newArr.EOinsert(new EOint(5), new EOint(5));
+
+        MatcherAssert.assertThat(
+                arr.EOlength()._getData().toInt(),
+                Matchers.equalTo(3L)
+        );
+        MatcherAssert.assertThat(
+                newArr.EOlength()._getData().toInt(),
+                Matchers.equalTo(6L)
+        );
+        for (long i = 0; i< newArr.EOlength()._getData().toInt();i++){
+            MatcherAssert.assertThat(
+                    newArr.EOget(new EOint(i))._getData().toInt(),
+                    Matchers.equalTo(i)
+            );
+        }
+
+        //Insert to empty array
+        newArr = arr2.EOinsert(new EOint(123), new EOint(0));
+        MatcherAssert.assertThat(
+                newArr.EOget(new EOint(0L))._getData().toInt(),
+                Matchers.equalTo(123L)
+        );
+
+    }
+
+    /**
+     * Checks Exceptions of {@code EOinsert}.
+     */
+    @Test
+    void EOinsertExceptions(){
+        EOarray arr = new EOarray(
+                new EOint(0),
+                new EOint(2),
+                new EOint(4)
+        );
+        assertThrows(IndexOutOfBoundsException.class, () -> arr.EOinsert(new EObool(true), new EOint(-1L)));
+        assertThrows(IndexOutOfBoundsException.class, () -> arr.EOinsert(new EObool(true), new EOint(4L)));
     }
 
     /**
@@ -471,6 +542,98 @@ class EOarrayTest {
 
     @Test
     void EOmin() {
+    }
+
+    /**
+     * Checks that {@code EOmin} evaluates to -1 when all elements are equal.
+     */
+    @Test
+    void EOminAllEqual() {
+        EOint expectedIndex = new EOint(-1);
+        EOarray inputArray = new EOarray(
+                new EOint(1),
+                new EOint(1),
+                new EOint(1),
+                new EOint(1),
+                new EOint(1)
+        );
+
+        EOint foundMinIndex = inputArray.EOmin(EOarrayTest.intComparatorObject);
+        MatcherAssert.assertThat(foundMinIndex, is(expectedIndex));
+    }
+
+    /**
+     * Checks that {@code EOmin} evaluates to -1 when an array is empty.
+     */
+    @Test
+    void EOminEmptyArray() {
+        EOint expectedIndex = new EOint(-1);
+        EOarray inputArray = new EOarray();
+
+        EOint foundMinIndex = inputArray.EOmin(EOarrayTest.intComparatorObject);
+        MatcherAssert.assertThat(foundMinIndex, is(expectedIndex));
+    }
+
+    /**
+     * Checks that {@code EOmin} considers the 0th and only element as the minimum of a one-element array.
+     */
+    @Test
+    void EOminOnlyElementIsMin() {
+        EOint expectedIndex = new EOint(0);
+        EOarray inputArray = new EOarray(
+                new EOint(1)
+        );
+
+        EOint foundMinIndex = inputArray.EOmin(EOarrayTest.intComparatorObject);
+        MatcherAssert.assertThat(foundMinIndex, is(expectedIndex));
+    }
+
+    /**
+     * Checks that {@code EOmin} finds the first minimum among several ones.
+     */
+    @Test
+    void EOminSeveralMinima() {
+        EOint expectedMinimum = new EOint(-7);
+        EOint expectedIndex = new EOint(2);
+        EOarray inputArray = new EOarray(
+                new EOint(1),
+                new EOint(-2),
+                expectedMinimum,
+                new EOint(12),
+                new EOint(0),
+                expectedMinimum,
+                new EOint(3),
+                new EOint(8),
+                expectedMinimum
+        );
+
+        EOint foundMinIndex = inputArray.EOmin(EOarrayTest.intComparatorObject);
+        EOint foundMin = (EOint) inputArray.EOget(foundMinIndex);
+
+        MatcherAssert.assertThat(foundMin, is(expectedMinimum));
+        MatcherAssert.assertThat(foundMinIndex, is(expectedIndex));
+    }
+
+    /**
+     * Checks that {@code EOmin} is able to find the index of the first minimum when minimum exists.
+     */
+    @Test
+    void EOminWorksWhenMinExists() {
+        EOint expectedMinimum = new EOint(-7);
+        EOint expectedIndex = new EOint(2);
+        EOarray inputArray = new EOarray(
+                new EOint(1),
+                new EOint(-2),
+                expectedMinimum,
+                new EOint(12),
+                new EOint(0)
+        );
+
+        EOint foundMinIndex = inputArray.EOmin(EOarrayTest.intComparatorObject);
+        EOint foundMin = (EOint) inputArray.EOget(foundMinIndex);
+
+        MatcherAssert.assertThat(foundMin, is(expectedMinimum));
+        MatcherAssert.assertThat(foundMinIndex, is(expectedIndex));
     }
 
     /**
@@ -833,166 +996,59 @@ class EOarrayTest {
     }
 
     /**
-     * Checks that {@code EOmin} is able to find the index of the first minimum when minimum exists.
+     * Checks that {@code EOreverse} is able to reverse empty arrays.
      */
     @Test
-    void EOminWorksWhenMinExists() {
-        EOint expectedMinimum = new EOint(-7);
-        EOint expectedIndex = new EOint(2);
-        EOarray inputArray = new EOarray(
-                new EOint(1),
-                new EOint(-2),
-                expectedMinimum,
-                new EOint(12),
-                new EOint(0)
-        );
-
-        EOint foundMinIndex = inputArray.EOmin(EOarrayTest.intComparatorObject);
-        EOint foundMin = (EOint) inputArray.EOget(foundMinIndex);
-
-        MatcherAssert.assertThat(foundMin, is(expectedMinimum));
-        MatcherAssert.assertThat(foundMinIndex, is(expectedIndex));
-    }
-
-    /**
-     * Checks that {@code EOmin} evaluates to -1 when all elements are equal.
-     */
-    @Test
-    void EOminAllEqual() {
-        EOint expectedIndex = new EOint(-1);
-        EOarray inputArray = new EOarray(
-                new EOint(1),
-                new EOint(1),
-                new EOint(1),
-                new EOint(1),
-                new EOint(1)
-        );
-
-        EOint foundMinIndex = inputArray.EOmin(EOarrayTest.intComparatorObject);
-        MatcherAssert.assertThat(foundMinIndex, is(expectedIndex));
-    }
-
-    /**
-     * Checks that {@code EOmin} evaluates to -1 when an array is empty.
-     */
-    @Test
-    void EOminEmptyArray() {
-        EOint expectedIndex = new EOint(-1);
+    void EOreverseForEmptyArrays() {
         EOarray inputArray = new EOarray();
-
-        EOint foundMinIndex = inputArray.EOmin(EOarrayTest.intComparatorObject);
-        MatcherAssert.assertThat(foundMinIndex, is(expectedIndex));
+        EOarray expectedOutputArray = new EOarray();
+        EOarray outputArray = inputArray.EOreverse();
+        MatcherAssert.assertThat(outputArray, is(expectedOutputArray));
     }
 
     /**
-     * Checks that {@code EOmin} considers the 0th and only element as the minimum of a one-element array.
+     * Checks that {@code EOreverse} is able to reverse arrays of normal size (>2).
      */
     @Test
-    void EOminOnlyElementIsMin() {
-        EOint expectedIndex = new EOint(0);
-        EOarray inputArray = new EOarray(
-                new EOint(1)
-        );
-
-        EOint foundMinIndex = inputArray.EOmin(EOarrayTest.intComparatorObject);
-        MatcherAssert.assertThat(foundMinIndex, is(expectedIndex));
-    }
-
-    /**
-     * Checks that {@code EOmin} finds the first minimum among several ones.
-     */
-    @Test
-    void EOminSeveralMinima() {
-        EOint expectedMinimum = new EOint(-7);
-        EOint expectedIndex = new EOint(2);
+    void EOreverseForNormalArrays() {
         EOarray inputArray = new EOarray(
                 new EOint(1),
-                new EOint(-2),
-                expectedMinimum,
-                new EOint(12),
+                new EOint(20),
+                new EOint(-7),
                 new EOint(0),
-                expectedMinimum,
-                new EOint(3),
-                new EOint(8),
-                expectedMinimum
+                new EOint(5)
         );
-
-        EOint foundMinIndex = inputArray.EOmin(EOarrayTest.intComparatorObject);
-        EOint foundMin = (EOint) inputArray.EOget(foundMinIndex);
-
-        MatcherAssert.assertThat(foundMin, is(expectedMinimum));
-        MatcherAssert.assertThat(foundMinIndex, is(expectedIndex));
-    }
-
-    /**
-     * Checks that {@code EOinsert} inserts objects in proper positions.
-     */
-    @Test
-    void EOinsert(){
-        EOarray arr = new EOarray(
-                new EOint(0),
-                new EOint(2),
-                new EOint(4)
-        );
-
-        EOarray arr2 = new EOarray();
-
-        EOarray newArr = arr.EOinsert(new EOint(1), new EOint(1));
-        newArr = newArr.EOinsert(new EOint(3), new EOint(3));
-        newArr = newArr.EOinsert(new EOint(5), new EOint(5));
-
-        MatcherAssert.assertThat(
-                arr.EOlength()._getData().toInt(),
-                Matchers.equalTo(3L)
-        );
-        MatcherAssert.assertThat(
-                newArr.EOlength()._getData().toInt(),
-                Matchers.equalTo(6L)
-        );
-        for (long i = 0; i< newArr.EOlength()._getData().toInt();i++){
-            MatcherAssert.assertThat(
-                    newArr.EOget(new EOint(i))._getData().toInt(),
-                    Matchers.equalTo(i)
-            );
-        }
-
-        //Insert to empty array
-        newArr = arr2.EOinsert(new EOint(123), new EOint(0));
-        MatcherAssert.assertThat(
-                newArr.EOget(new EOint(0L))._getData().toInt(),
-                Matchers.equalTo(123L)
-        );
-
-    }
-
-    /**
-     * Checks Exceptions of {@code EOinsert}.
-     */
-    @Test
-    void EOinsertExceptions(){
-        EOarray arr = new EOarray(
-                new EOint(0),
-                new EOint(2),
-                new EOint(4)
-        );
-        assertThrows(IndexOutOfBoundsException.class, () -> arr.EOinsert(new EObool(true), new EOint(-1L)));
-        assertThrows(IndexOutOfBoundsException.class, () -> arr.EOinsert(new EObool(true), new EOint(4L)));
-    }
-
-    /**
-     * Checks {@code EOfind} object.
-     */
-    @Test
-    void EOfind(){
-        EOarray arr = new EOarray(
-                new EOint(0),
-                new EOint(9),
+        EOarray expectedOutputArray = new EOarray(
                 new EOint(5),
-                new EOint(7),
-                new EOint(12),
-                new EOint(4)
+                new EOint(0),
+                new EOint(-7),
+                new EOint(20),
+                new EOint(1)
         );
-        //TODO Add test
+        EOarray outputArray = inputArray.EOreverse();
+        MatcherAssert.assertThat(outputArray, is(expectedOutputArray));
+    }
+
+    /**
+     * Checks that {@code EOreverse} is able to reverse arrays of length 1.
+     */
+    @Test
+    void EOreverseForOneElementArrays() {
+        EOarray inputArray = new EOarray(new EOint(1L));
+        EOarray expectedOutputArray = new EOarray(new EOint(1L));
+        EOarray outputArray = inputArray.EOreverse();
+        MatcherAssert.assertThat(outputArray, is(expectedOutputArray));
+    }
+
+    /**
+     * Checks that {@code EOreverse} is able to reverse arrays of length 2.
+     */
+    @Test
+    void EOreverseForTwoElementArrays() {
+        EOarray inputArray = new EOarray(new EOint(1L), new EOint(2L));
+        EOarray expectedOutputArray = new EOarray(new EOint(2L), new EOint(1L));
+        EOarray outputArray = inputArray.EOreverse();
+        MatcherAssert.assertThat(outputArray, is(expectedOutputArray));
     }
 }
 
