@@ -374,7 +374,7 @@ public class EOarray extends EOObject {
 
     /**
      * Inserts the object at the position {@code i} of this array.
-     * @param obj the position to insert.
+     * @param obj the object to insert.
      * @param i the position to insert the object at.
      * @return a copy of this array with the inserted object.
      * @throws IndexOutOfBoundsException if {@code i} is out of bounds of this array
@@ -413,11 +413,7 @@ public class EOarray extends EOObject {
         }
         for(int i = index; i < _array.size(); i++){
             try {
-                Class<?> vClass = validator.getClass();
-                EOObject vObject = (EOObject)vClass
-                        .getConstructor(new Class<?> [] {EOObject.class})
-                        .newInstance(_array.get(i));
-                if(vObject._getDecoratedObject()._getData().toBoolean())
+                if(validator._getAttribute("EOvalidator", _array.get(i))._getDecoratedObject()._getData().toBoolean())
                     return new EOint(i);
             } catch (Exception e) {
                 return new EOint(-1L);

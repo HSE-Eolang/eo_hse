@@ -983,24 +983,7 @@ class EOarrayTest {
                 new EOint(12),
                 new EOint(4)
         );
-        EOObject validator = new EOfindValidator(null);
-        EOObject validator2 = new EOfindValidator2(null);
-        MatcherAssert.assertThat(
-                arr.EOfind(new EOint(0L),validator)._getData().toInt(),
-                Matchers.equalTo(2L)
-        );
-        MatcherAssert.assertThat(
-                arr.EOfind(new EOint(2L),validator)._getData().toInt(),
-                Matchers.equalTo(2L)
-        );
-        MatcherAssert.assertThat(
-                arr.EOfind(new EOint(3L),validator)._getData().toInt(),
-                Matchers.equalTo(-1L)
-        );
-        MatcherAssert.assertThat(
-                arr.EOfind(new EOint(3L),validator2)._getData().toInt(),
-                Matchers.equalTo(-1L)
-        );
+        //TODO Add test
     }
 }
 
@@ -1011,38 +994,5 @@ class StdoutMockingUtils {
 
     public static void rollbackChangesToStdout(PrintStream oldOut) {
         System.setOut(oldOut);
-    }
-}
-
-class EOfindValidator extends EOObject{
-    public EOfindValidator(EOObject element) {
-        this.EOelement = element;
-    }
-
-    public EOObject EOelement() {
-        return EOelement;
-    }
-
-    private final EOObject EOelement;
-
-    @Override
-    protected EOObject _decoratee() {
-        return EOelement()._getAttribute("EOeq", new EOint(5L));
-    }
-}
-class EOfindValidator2 extends EOObject{
-    public EOfindValidator2(EOObject element) {
-        this.EOelement = element;
-    }
-
-    public EOObject EOelement() {
-        return EOelement;
-    }
-
-    private final EOObject EOelement;
-
-    @Override
-    protected EOObject _decoratee() {
-        return EOelement()._getAttribute("EOeq", new EOint(15L));
     }
 }
