@@ -935,6 +935,8 @@ class EOarrayTest {
                 new EOint(4)
         );
 
+        EOarray arr2 = new EOarray();
+
         EOarray newArr = arr.EOinsert(new EOint(1), new EOint(1));
         newArr = newArr.EOinsert(new EOint(3), new EOint(3));
         newArr = newArr.EOinsert(new EOint(5), new EOint(5));
@@ -953,6 +955,13 @@ class EOarrayTest {
                     Matchers.equalTo(i)
             );
         }
+
+        //Insert to empty array
+        newArr = arr2.EOinsert(new EOint(123), new EOint(0));
+        MatcherAssert.assertThat(
+                newArr.EOget(new EOint(0L))._getData().toInt(),
+                Matchers.equalTo(123L)
+        );
 
     }
 
